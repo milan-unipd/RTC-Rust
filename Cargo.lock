@@ -382,7 +382,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "esp32c3_periodic_task"
+name = "esp32c3_gee"
 version = "0.1.0"
 dependencies = [
  "esp-backtrace",
