@@ -1,0 +1,385 @@
+Processing_Resource (
+   Type                   => Regular_Processor,
+   Name                   => esp32c3,
+   Max_Interrupt_Priority => 31,
+   Min_Interrupt_Priority => 1,
+   Worst_ISR_Switch       => 4.000E-06,
+   Avg_ISR_Switch         => 0.00,
+   Best_ISR_Switch        => 0.00,
+   System_Timer           => 
+      ( Type           => Ticker,
+        Worst_Overhead => 0.00,
+        Avg_Overhead   => 0.00,
+        Best_Overhead  => 0.00,
+        Period         => 6.250E-08),
+   Speed_Factor           => 1.00);
+
+Scheduler (
+   Type            => Primary_Scheduler,
+   Name            => "primary_scheduler",
+   Host            => esp32c3,
+   Policy          => 
+      ( Type                 => Fixed_Priority,
+        Worst_Context_Switch => 2.500E-05,
+        Avg_Context_Switch   => 0.00,
+        Best_Context_Switch  => 0.00,
+        Max_Priority         => 31,
+        Min_Priority         => 1));
+
+Scheduling_Server (
+   Type                       => Regular,
+   Name                       => regular_producer,
+   Server_Sched_Parameters    => 
+      ( Type         => Fixed_Priority_Policy,
+        The_Priority => 7,
+        Preassigned  => YES),
+   Scheduler                  => "primary_scheduler");
+
+Scheduling_Server (
+   Type                       => Regular,
+   Name                       => on_call_producer,
+   Server_Sched_Parameters    => 
+      ( Type         => Fixed_Priority_Policy,
+        The_Priority => 5,
+        Preassigned  => YES),
+   Scheduler                  => "primary_scheduler");
+
+Scheduling_Server (
+   Type                       => Regular,
+   Name                       => external_event_server,
+   Server_Sched_Parameters    => 
+      ( Type         => Fixed_Priority_Policy,
+        The_Priority => 11,
+        Preassigned  => YES),
+   Scheduler                  => "primary_scheduler");
+
+Scheduling_Server (
+   Type                       => Regular,
+   Name                       => alert_log_reader,
+   Server_Sched_Parameters    => 
+      ( Type         => Fixed_Priority_Policy,
+        The_Priority => 3,
+        Preassigned  => YES),
+   Scheduler                  => "primary_scheduler");
+
+Shared_Resource (
+   Type        => Immediate_Ceiling_Resource,
+   Name        => activation_log,
+   Ceiling     => 11,
+   Preassigned => YES);
+
+Operation (
+   Type                       => Simple,
+   Name                       => rp_s_w,
+   Worst_Case_Execution_Time  => 0.499450,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 0.499450);
+
+Operation (
+   Type                       => Simple,
+   Name                       => rp_due_activation,
+   Worst_Case_Execution_Time  => 1.000E-06,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 1.000E-06);
+
+Operation (
+   Type                       => Simple,
+   Name                       => rp_check_due,
+   Worst_Case_Execution_Time  => 1.000E-06,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 1.000E-06);
+
+Operation (
+   Type                       => Simple,
+   Name                       => rp_to_ocp,
+   Worst_Case_Execution_Time  => 6.000E-06,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 6.000E-06);
+
+Operation (
+   Type                       => Simple,
+   Name                       => rp_to_alr,
+   Worst_Case_Execution_Time  => 6.000E-06,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 6.000E-06);
+
+Operation (
+   Type                       => Simple,
+   Name                       => deadline_check,
+   Worst_Case_Execution_Time  => 1.000E-06,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 1.000E-06);
+
+Operation (
+   Type                       => Simple,
+   Name                       => rp_println,
+   Worst_Case_Execution_Time  => 3.800E-05,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 3.800E-05);
+
+Operation (
+   Type                       => Simple,
+   Name                       => delay_until,
+   Worst_Case_Execution_Time  => 5.000E-06,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 5.000E-06);
+
+Operation (
+   Type                       => Simple,
+   Name                       => ocp_recv,
+   Worst_Case_Execution_Time  => 5.000E-06,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 5.000E-06);
+
+Operation (
+   Type                       => Simple,
+   Name                       => ocp_s_w,
+   Worst_Case_Execution_Time  => 0.499896,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 0.499896);
+
+Operation (
+   Type                       => Simple,
+   Name                       => ocp_println,
+   Worst_Case_Execution_Time  => 3.900E-05,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 3.900E-05);
+
+Operation (
+   Type                       => Simple,
+   Name                       => ees_recv,
+   Worst_Case_Execution_Time  => 5.000E-06,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 5.000E-06);
+
+Operation (
+   Type                       => Simple,
+   Name                       => alr_recv,
+   Worst_Case_Execution_Time  => 5.000E-06,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 5.000E-06);
+
+Operation (
+   Type                       => Simple,
+   Name                       => alr_s_w,
+   Worst_Case_Execution_Time  => 0.499690,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 0.499690);
+
+Operation (
+   Type                       => Simple,
+   Name                       => alr_println,
+   Worst_Case_Execution_Time  => 5.700E-05,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 5.700E-05);
+
+Operation (
+   Type                     => Composite,
+   Name                     => regular_producer,
+   Composite_Operation_List => 
+      ( rp_s_w,
+        rp_due_activation,
+        rp_check_due,
+        rp_to_ocp,
+        rp_to_alr,
+        deadline_check,
+        rp_println,
+        delay_until));
+
+Operation (
+   Type                     => Composite,
+   Name                     => external_event_server,
+   Composite_Operation_List => 
+      ( ees_recv,
+        e_al_w,
+        deadline_check));
+
+Operation (
+   Type                     => Composite,
+   Name                     => alert_log_reader,
+   Composite_Operation_List => 
+      ( alr_recv,
+        alr_s_w,
+        e_al_r,
+        deadline_check,
+        alr_println));
+
+Operation (
+   Type                     => Composite,
+   Name                     => on_call_producer,
+   Composite_Operation_List => 
+      ( ocp_recv,
+        ocp_s_w,
+        ocp_println,
+        deadline_check));
+
+Operation (
+   Type                       => Simple,
+   Name                       => al2_r,
+   Worst_Case_Execution_Time  => 1.000E-06,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 1.000E-06,
+   Shared_Resources_To_Lock   => 
+      ( activation_log),
+   Shared_Resources_To_Unlock => 
+      ( activation_log));
+
+Operation (
+   Type                       => Simple,
+   Name                       => al2_w,
+   Worst_Case_Execution_Time  => 2.000E-06,
+   Avg_Case_Execution_Time    => 0.00,
+   Best_Case_Execution_Time   => 2.000E-06,
+   Shared_Resources_To_Lock   => 
+      ( activation_log),
+   Shared_Resources_To_Unlock => 
+      ( activation_log));
+
+Operation (
+   Type                     => Enclosing,
+   Name                     => e_al_w,
+   Worst_Case_Execution_Time=> 3.700E-05,
+   Avg_Case_Execution_Time  => 0.00,
+   Best_Case_Execution_Time => 3.700E-05,
+   Composite_Operation_List => 
+      ( al2_w));
+
+Operation (
+   Type                     => Enclosing,
+   Name                     => e_al_r,
+   Worst_Case_Execution_Time=> 3.100E-05,
+   Avg_Case_Execution_Time  => 0.00,
+   Best_Case_Execution_Time => 3.100E-05,
+   Composite_Operation_List => 
+      ( al2_r));
+
+Transaction (
+   Type            => regular,
+   Name            => external_event_server,
+   External_Events => 
+      ( ( Type             => Sporadic,
+          Name             => ees_e1,
+          Avg_Interarrival => 0.000,
+          Distribution     => UNIFORM,
+          Min_Interarrival => 5.000)),
+   Internal_Events => 
+      ( ( Type => Regular,
+          Name => ees_o1,
+          Timing_Requirements => 
+            ( Type             => Hard_Global_Deadline,
+              Deadline         => 0.100000,
+              Referenced_Event => ees_e1))),
+   Event_Handlers  => 
+      ( (Type               => Activity,
+         Input_Event        => ees_e1,
+         Output_Event       => ees_o1,
+         Activity_Operation => external_event_server,
+         Activity_Server    => external_event_server)));
+
+Transaction (
+   Type            => regular,
+   Name            => rp_ocp_transaction,
+   External_Events => 
+      ( ( Type       => Periodic,
+          Name       => e1,
+          Period     => 3.000,
+          Max_Jitter => 4.000E-06,
+          Phase      => 0.000)),
+   Internal_Events => 
+      ( ( Type => Regular,
+          Name => offset1),
+        ( Type => Regular,
+          Name => ocp_o,
+          Timing_Requirements => 
+            ( Type             => Hard_Global_Deadline,
+              Deadline         => 2.300,
+              Referenced_Event => e1)),
+        ( Type => Regular,
+          Name => rp_o,
+          Timing_Requirements => 
+            ( Type             => Hard_Global_Deadline,
+              Deadline         => 1.500,
+              Referenced_Event => e1))),
+   Event_Handlers  => 
+      ( (Type               => Activity,
+         Input_Event        => rp_o,
+         Output_Event       => ocp_o,
+         Activity_Operation => on_call_producer,
+         Activity_Server    => on_call_producer),
+        (Type               => System_Timed_Activity,
+         Input_Event        => offset1,
+         Output_Event       => rp_o,
+         Activity_Operation => regular_producer,
+         Activity_Server    => regular_producer),
+        (Type               => Offset,
+         Input_Event        => e1,
+         Output_Event       => offset1,
+         Delay_Max_Interval => 1.000,
+         Delay_Min_Interval => 1.000,
+         Referenced_Event   => e1)));
+
+Transaction (
+   Type            => regular,
+   Name            => rp_alr_transaction,
+   External_Events => 
+      ( ( Type       => Periodic,
+          Name       => e1,
+          Period     => 3.000,
+          Max_Jitter => 4.000E-06,
+          Phase      => 0.000)),
+   Internal_Events => 
+      ( ( Type => Regular,
+          Name => "offset"),
+        ( Type => Regular,
+          Name => alr_o,
+          Timing_Requirements => 
+            ( Type             => Hard_Global_Deadline,
+              Deadline         => 3.500,
+              Referenced_Event => e1)),
+        ( Type => Regular,
+          Name => rp_o,
+          Timing_Requirements => 
+            ( Type             => Hard_Global_Deadline,
+              Deadline         => 2.500,
+              Referenced_Event => e1))),
+   Event_Handlers  => 
+      ( (Type               => System_Timed_Activity,
+         Input_Event        => "offset",
+         Output_Event       => rp_o,
+         Activity_Operation => regular_producer,
+         Activity_Server    => regular_producer),
+        (Type               => Activity,
+         Input_Event        => rp_o,
+         Output_Event       => alr_o,
+         Activity_Operation => alert_log_reader,
+         Activity_Server    => alert_log_reader),
+        (Type               => Offset,
+         Input_Event        => e1,
+         Output_Event       => "offset",
+         Delay_Max_Interval => 2.000,
+         Delay_Min_Interval => 2.000,
+         Referenced_Event   => e1)));
+
+Transaction (
+   Type            => regular,
+   Name            => rp_transaction,
+   External_Events => 
+      ( ( Type       => Periodic,
+          Name       => e1,
+          Period     => 3.000,
+          Max_Jitter => 4.000E-06,
+          Phase      => 0.000)),
+   Internal_Events => 
+      ( ( Type => Regular,
+          Name => o1,
+          Timing_Requirements => 
+            ( Type             => Hard_Global_Deadline,
+              Deadline         => 0.500000,
+              Referenced_Event => e1))),
+   Event_Handlers  => 
+      ( (Type               => Activity,
+         Input_Event        => e1,
+         Output_Event       => o1,
+         Activity_Operation => regular_producer,
+         Activity_Server    => regular_producer)));
+
