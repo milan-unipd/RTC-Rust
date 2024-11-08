@@ -2,8 +2,8 @@ use crate::{auxiliary, production_worklad};
 
 use fugit::Duration;
 
-const REGULAR_PRODUCER_WORKLOAD: usize = 60 * 22 + 17;
-pub const ON_CALL_PRODUCER_WORKLOAD: usize = 20 * 66 + 19;
+const REGULAR_PRODUCER_WORKLOAD: usize = 60;
+pub const ON_CALL_PRODUCER_WORKLOAD: usize = 20;
 
 pub const PERIOD: Duration<u64, 1, 1> = Duration::<u64, 1, 1>::from_ticks(1); //1s
 

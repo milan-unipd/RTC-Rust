@@ -2,7 +2,7 @@ use fugit::Duration;
 
 use crate::production_worklad;
 
-const ACTIVATION_LOG_READER_WORKLOAD: usize = 10 * 133 + 9;
+const ACTIVATION_LOG_READER_WORKLOAD: usize = 10;
 
 pub const DEADLINE: Duration<u64, 1, 1> = Duration::<u64, 1, 1>::from_ticks(1); //1s
 
